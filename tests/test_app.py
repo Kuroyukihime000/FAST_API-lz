@@ -7,7 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class TestSite(unittest.TestCase):
     def setUp(self):
-        self.base_url = "http://127.0.0.1:8000"
+        self.base_url = "https://127.0.0.1:443"
         options = Options()
         options.add_argument("--headless")
         options.add_argument("--disable-gpu")
