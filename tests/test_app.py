@@ -17,7 +17,7 @@ class TestSite(unittest.TestCase):
         self.driver.implicitly_wait(5)
         self.wait = WebDriverWait(self.driver, 10)
 
-        self.test_username = "Clown"
+        self.test_username = "Clownsssssss"
         self.test_password = "12345"
 
     def tearDown(self):
@@ -87,6 +87,40 @@ class TestSite(unittest.TestCase):
     def test_08_logout(self):
         self.driver.get(f"{self.base_url}/logout")
         self.assertIn("вход", self.driver.page_source.lower())
+
+    def test_09_404error_1(self):
+        self.driver.get(f"{self.base_url}/asdasd")
+        self.assertIn("вход", self.driver.page_source.lower())
+
+    def test_10_404error_2(self):
+        self.driver.get(f"{self.base_url}/login")
+        self.driver.find_element(By.NAME, "username").send_keys(self.test_username)
+        self.driver.find_element(By.NAME, "password").send_keys(self.test_password)
+        self.driver.find_element(By.XPATH, "/html/body/div/form[1]/button").click()
+        self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/h2")))
+
+        self.driver.get(f"{self.base_url}/qqqqq")
+
+        self.assertIn("404", self.driver.page_source.lower())
+    
+    def test_11_403(self):
+        self.driver.get(f"{self.base_url}/login")
+        self.driver.find_element(By.NAME, "username").send_keys("admin1")
+        self.driver.find_element(By.NAME, "password").send_keys("qwerty")
+        self.driver.find_element(By.XPATH, "/html/body/div/form[1]/button").click()
+        self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/h2")))
+        self.driver.find_element(By.XPATH, "/html/body/a[1]").click()
+        self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/main/section[1]/div/div/p"))) 
+
+        self.driver.find_element(By.XPATH, "/html/body/header/div/div/a[4]").click()
+        self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div/h2")))   
+
+        self.driver.find_element(By.NAME, "username").send_keys(self.test_username)
+        self.driver.find_element(By.NAME, "password").send_keys(self.test_password)
+        self.driver.find_element(By.XPATH, "/html/body/div/form[1]/button").click()
+
+        self.assertIn("403", self.driver.page_source.lower())
+
 
 if __name__ == "__main__":
     unittest.main()
