@@ -17,7 +17,7 @@ class TestSite(unittest.TestCase):
         self.driver.implicitly_wait(5)
         self.wait = WebDriverWait(self.driver, 10)
 
-        self.test_username = "Clownsssssss"
+        self.test_username = "Clownssssssssss"
         self.test_password = "12345"
 
     def tearDown(self):
@@ -118,6 +118,8 @@ class TestSite(unittest.TestCase):
         self.driver.find_element(By.NAME, "username").send_keys(self.test_username)
         self.driver.find_element(By.NAME, "password").send_keys(self.test_password)
         self.driver.find_element(By.XPATH, "/html/body/div/form[1]/button").click()
+        self.wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/h1")))
+
 
         self.assertIn("403", self.driver.page_source.lower())
 
